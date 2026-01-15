@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVSHS Enrollment Verification</title>
+    <style>
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: "Poppins", sans-serif; 
+        }
+        
+        body { 
+            color: #111; 
+            background: #f3f4f6; 
+            overflow-x: hidden; 
+        }
+        
+        header { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 70px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: rgba(255, 255, 255, 0.8); 
+            backdrop-filter: blur(8px); 
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); 
+            padding: 0 50px; 
+            z-index: 1000; 
+        }
+        
+        .logo-text { 
+            font-size: 1.3rem; 
+            font-weight: bold; 
+            color: #16a34a; 
+        }
+        
+        nav ul { 
+            list-style: none; 
+            display: flex; 
+            align-items: center; 
+            gap: 25px; 
+        }
+        
+        nav .nav-btn { 
+            text-decoration: none; 
+            color: #111; 
+            font-weight: 500; 
+            position: relative; 
+            transition: 0.3s ease; 
+            background: none; 
+            border: none; 
+            cursor: pointer; 
+            font-size: 1rem; 
+            font-family: "Poppins", sans-serif; 
+        }
+        
+        nav .nav-btn:hover, 
+        nav .nav-btn.active { 
+            color: #2563eb; 
+        }
+        
+        nav .nav-btn.active::after { 
+            content: ""; 
+            position: absolute; 
+            left: 0; 
+            bottom: -4px; 
+            width: 100%; 
+            height: 2px; 
+            background: #2563eb; 
+        }
+        
+        .hero-section { 
+            position: relative; 
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: flex-start; 
+            background: url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop") center/cover no-repeat; 
+            color: white; 
+            padding-left: 10%; 
+        }
+        
+        .hero-overlay { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 1; 
+        }
+        
+        .hero-content { 
+            position: relative; 
+            z-index: 2; 
+            max-width: 550px; 
+        }
+        
+        .hero-content h1 { 
+            font-size: 2.8rem; 
+            font-weight: 700; 
+            margin-bottom: 10px; 
+            line-height: 1.2; 
+        }
+        
+        .hero-content h1 span { 
+            color: #60a5fa; 
+        }
+        
+        .hero-content p { 
+            font-size: 1.1rem; 
+            color: #e0e7ff; 
+            margin-bottom: 25px; 
+        }
+        
+        .hero-content .apply-now { 
+            background: #2563eb; 
+            color: #fff; 
+            padding: 12px 28px; 
+            border-radius: 6px; 
+            text-decoration: none; 
+            font-weight: 600; 
+            transition: all 0.3s ease; 
+            border: none; 
+            cursor: pointer; 
+        }
+        
+        .hero-content .apply-now:hover { 
+            background: #1e3a8a; 
+            transform: translateY(-2px); 
+        }
+        
+        .verification-section { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            width: 100%; 
+            padding: 80px 20px; 
+        }
+        
+        .verification-container { 
+            background: #fff; 
+            padding: 40px; 
+            border-radius: 20px; 
+            width: 100%; 
+            max-width: 600px; 
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1); 
+            text-align: center; 
+        }
+        
+        .verification-container h1 { 
+            font-size: 1.8rem; 
+            margin-bottom: 8px; 
+        }
+        
+        .verification-container .subtitle { 
+            color: #555; 
+            margin-bottom: 25px; 
+            font-size: 1rem; 
+        }
+        
+        .form-group { 
+            margin-bottom: 20px; 
+            text-align: left;
+        }
+        
+        .form-group label { 
+            font-weight: 500; 
+            margin-bottom: 6px; 
+            font-size: 14px; 
+            display: block; 
+            color: #374151; 
+        }
+        
+        .form-group input { 
+            width: 100%; 
+            padding: 12px 14px; 
+            font-size: 1rem; 
+            border: 1px solid #d1d5db; 
+            border-radius: 8px; 
+            background: #f9fafb; 
+            transition: all 0.25s ease; 
+            outline: none; 
+        }
+        
+        .form-group input:focus { 
+            border-color: #2563eb; 
+            background: #fff; 
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); 
+        }
+        
+        .enroll-button { 
+            background: #2563eb; 
+            color: #fff; 
+            padding: 12px 28px; 
+            border-radius: 8px; 
+            border: none; 
+            font-size: 1rem; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            width: 100%; 
+            margin-top: 10px;
+        }
+        
+        .enroll-button:hover { 
+            background: #1e40af; 
+        }
+        
+        .enroll-button:disabled { 
+            background: #9ca3af; 
+            cursor: not-allowed; 
+        }
+        
+        .verification-message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .verification-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        
+        .verification-error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+        
+        .student-info {
+            background: #f9fafb;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+            display: none;
+        }
+        
+        .student-info h3 {
+            margin-bottom: 15px;
+            color: #1f2937;
+        }
+        
+        .student-info p {
+            margin-bottom: 8px;
+        }
+        
+        .student-info p strong {
+            color: #6b7280;
+        }
+        
+        @media (max-width: 768px) {
+            header { 
+                padding: 0 20px; 
+            }
+            
+            .hero-section { 
+                height: 70vh; 
+                text-align: center; 
+                justify-content: center; 
+                padding: 0 5%; 
+            }
+            
+            .verification-container { 
+                padding: 30px 25px; 
+                max-width: 100%; 
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-content h1 { 
+                font-size: 2rem; 
+            }
+            
+            .verification-container { 
+                padding: 25px 15px; 
+            }
+        }
+        
+        .uni-footer {
+            width: 100%;
+            background: #ffffff;
+            padding: 50px 0;
+            font-family: sans-serif;
+        }
+        
+        .footer-inner {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .footer-col {
+            width: 30%;
+            min-height: 180px;
+            padding: 10px 0;
+        }
+        
+        .footer-col h3,
+        .footer-col h4 {
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .footer-col p {
+            margin-bottom: 8px;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .useful-links, .footer-social {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .useful-links li, .footer-social li {
+            margin-bottom: 10px;
+        }
+        
+        .useful-links a, .footer-social a {
+            color: #0d47a1;
+            font-size: 0.95rem;
+            text-decoration: none;
+        }
+        
+        .useful-links a i, .footer-social a i {
+            margin-right: 6px;
+        }
+        
+        @media (max-width: 768px) {
+            .footer-col {
+                width: 100%;
+                min-height: auto;
+                margin-bottom: 30px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-text">SVSHS Online Application</div>
+        <nav>
+            <ul>
+                <li><button class="nav-btn active" data-target="home">Home</button></li>
+                <li><button class="nav-btn" data-target="verify">Enrollment Verification</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Welcome to <span>Southville 8B Senior High School</span></h1>
+            <p>SVSHS Senior High School Online Application Portal <br>SY 2024-2025</p>
+            <button class="apply-now">Apply Now →</button>
+        </div>
+    </section>
+
+    <section id="verify" class="verification-section">
+        <div class="verification-container">
+            <h1>Enrollment Verification</h1>
+            <p class="subtitle">Enter your LRN and name to verify and enroll</p>
+            
+            <form id="verificationForm">
+                <div class="form-group">
+                    <label for="lrn">Learner Reference Number (LRN) *</label>
+                    <input type="text" id="lrn" name="lrn" required maxlength="12" pattern="\d{12}" title="LRN must be 12 digits.">
+                </div>
+                
+                <div class="form-group">
+                    <label for="firstName">First Name *</label>
+                    <input type="text" id="firstName" name="firstName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lastName">Last Name *</label>
+                    <input type="text" id="lastName" name="lastName" required>
+                </div>
+                
+                <button type="submit" class="enroll-button">Verify and Enroll</button>
+            </form>
+            
+            <div id="verificationMessage" class="verification-message"></div>
+            
+            <div id="studentInfo" class="student-info">
+                <h3>Student Information</h3>
+                <p><strong>LRN:</strong> <span id="infoLRN"></span></p>
+                <p><strong>Name:</strong> <span id="infoName"></span></p>
+                <p><strong>Grade Level:</strong> <span id="infoGrade"></span></p>
+                <p><strong>Strand:</strong> <span id="infoStrand"></span></p>
+                <p><strong>Status:</strong> <span id="infoStatus"></span></p>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="uni-footer">
+        <div class="footer-inner">
+            <div class="footer-col">
+                <h3>Southville 8B Senior High School</h3>
+                <p>San Isidro<br>Rodriguez, Rizal<br>Philippines</p>
+                <p><strong>Phone:</strong> (02) 855-11982</p>
+                <p><strong>Email:</strong> 342567@deped.gov.ph</p>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Useful Links</h4>
+                <ul class="useful-links">
+                    <li><a href="https://sv8bshs.site/"><i class="fas fa-chevron-right"></i> SV8B Senior High School Website</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Facebook Page</h4>
+                <ul class="footer-social">
+                    <li><a href="https://www.facebook.com/profile.php?id=100063930377920"><i class="fas fa-chevron-right"></i>DepEd Tayo Southville 8B SHS - Rizal</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation
+            const API_BASE_URL = 'https://website-backend-lxwz.onrender.com/api';
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const sections = document.querySelectorAll('section');
+            
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const target = this.getAttribute('data-target');
+                    
+                    // Update active nav button
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show/hide sections
+                    sections.forEach(section => {
+                        if (section.id === target) {
+                            section.style.display = 'flex';
+                        } else if (section.id === 'home') {
+                            section.style.display = 'flex';
+                        } else {
+                            section.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Apply Now button
+            document.querySelector('.apply-now').addEventListener('click', function() {
+                document.querySelector('[data-target="verify"]').click();
+            });
+            
+            // Verification form
+            const verificationForm = document.getElementById('verificationForm');
+            const verificationMessage = document.getElementById('verificationMessage');
+            const studentInfo = document.getElementById('studentInfo');
+            
+            verificationForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const lrn = document.getElementById('lrn').value;
+                const firstName = document.getElementById('firstName').value;
+                const lastName = document.getElementById('lastName').value;
+                
+                // Simple validation
+                if (!lrn || !firstName || !lastName) {
+                    showMessage('Please fill in all required fields.', 'error');
+                    return;
+                }
+                
+                if (!/^\d{12}$/.test(lrn)) {
+                    showMessage('LRN must be exactly 12 digits.', 'error');
+                    return;
+                }
+                
+                // Verify student and enroll for 2nd semester
+                verifyAndEnrollStudent(lrn, firstName, lastName);
+            });
+            
+            async function verifyAndEnrollStudent(lrn, firstName, lastName) {
+                // Show loading state
+                const enrollButton = document.querySelector('.enroll-button');
+                enrollButton.disabled = true;
+                enrollButton.textContent = 'Verifying...';
+                
+                try {
+                    // API call to verify student and enroll for 2nd semester
+                    const response = await fetch(`${API_BASE_URL}/enroll-second-semester`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            lrn: lrn,
+                            firstName: firstName,
+                            lastName: lastName
+                        })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (response.ok && result.success) {
+                        // Display student information
+                        document.getElementById('infoLRN').textContent = result.data.lrn;
+                        document.getElementById('infoName').textContent = `${result.data.firstname} ${result.data.lastname}`;
+                        document.getElementById('infoGrade').textContent = result.data.yearlevel;
+                        document.getElementById('infoStrand').textContent = result.data.strand;
+                        document.getElementById('infoStatus').textContent = 'Enrolled for 2nd Semester';
+                        
+                        studentInfo.style.display = 'block';
+                        
+                        // Show success message
+                        showMessage('Successfully enrolled for 2nd semester!', 'success');
+                        
+                        // Reset form
+                        verificationForm.reset();
+                    } else {
+                        showMessage(result.message || 'Verification failed. Please try again.', 'error');
+                    }
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    showMessage('Network error. Please try again.', 'error');
+                } finally {
+                    // Reset button
+                    enrollButton.disabled = false;
+                    enrollButton.textContent = 'Verify and Enroll';
+                }
+            }
+            
+            function showMessage(message, type) {
+                verificationMessage.textContent = message;
+                verificationMessage.className = 'verification-message';
+                
+                if (type === 'success') {
+                    verificationMessage.classList.add('verification-success');
+                } else if (type === 'error') {
+                    verificationMessage.classList.add('verification-error');
+                }
+                
+                verificationMessage.style.display = 'block';
+                
+                // Auto-hide after 5 seconds
+                setTimeout(() => {
+                    verificationMessage.style.display = 'none';
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>

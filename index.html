@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Enrollment Semester</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: 600;
+            font-size: 1.8rem;
+        }
+        
+        .semester-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .semester-option {
+            padding: 18px 20px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+        
+        .semester-option:hover {
+            border-color: #667eea;
+            background: #f0f2ff;
+            transform: translateY(-2px);
+        }
+        
+        .semester-option.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+        
+        .semester-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .first-semester .semester-icon {
+            background: #ff9a9e;
+            color: #c44569;
+        }
+        
+        .second-semester .semester-icon {
+            background: #a1c4fd;
+            color: #2980b9;
+        }
+        
+        .selected.first-semester .semester-icon {
+            background: white;
+            color: #c44569;
+        }
+        
+        .selected.second-semester .semester-icon {
+            background: white;
+            color: #2980b9;
+        }
+        
+        .semester-info {
+            flex: 1;
+        }
+        
+        .semester-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+        
+        .semester-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .selected .semester-desc {
+            opacity: 0.9;
+        }
+        
+        .continue-btn {
+            margin-top: 25px;
+            width: 100%;
+            padding: 14px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .continue-btn:hover {
+            background: #5a6fd8;
+        }
+        
+        .continue-btn:disabled {
+            background: #b0b7d4;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Select Your Enrollment Semester</h1>
+        
+        <div class="semester-options">
+            <div class="semester-option first-semester" data-semester="first">
+                <div class="semester-icon">1</div>
+                <div class="semester-info">
+                    <div class="semester-title">First Semester</div>
+                    <div class="semester-desc">Start of academic year enrollment</div>
+                </div>
+            </div>
+            
+            <div class="semester-option second-semester" data-semester="second">
+                <div class="semester-icon">2</div>
+                <div class="semester-info">
+                    <div class="semester-title">Second Semester</div>
+                    <div class="semester-desc">Mid-year enrollment</div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="continue-btn" disabled>Continue</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const semesterOptions = document.querySelectorAll('.semester-option');
+            const continueBtn = document.querySelector('.continue-btn');
+            let selectedSemester = null;
+            
+            semesterOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove selected class from all options
+                    semesterOptions.forEach(opt => opt.classList.remove('selected'));
+                    
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+                    
+                    // Enable continue button
+                    continueBtn.disabled = false;
+                    
+                    // Store selected semester
+                    selectedSemester = this.getAttribute('data-semester');
+                });
+            });
+            
+            continueBtn.addEventListener('click', function() {
+                if (selectedSemester) {
+                    window.location.href = `FirstSemester.html`;
+                }else {
+                    window.location.href = `SecondSemester.html`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
